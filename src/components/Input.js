@@ -1,14 +1,34 @@
-import { Row, Col, Form } from 'react-bootstrap';
+import React from "react";
+import { Row, Col, Form } from "react-bootstrap";
+import Select from "react-select";
 
-const Input = props => {
-    const { placeholder, type, value, name, onChange } = props;
-    return (
-        <Form.Group as={Row} className="mb-3">
-            <Col>
-                <Form.Control name={name} value={value} onChange={onChange} type={type} placeholder={placeholder} />
-            </Col>
-        </Form.Group>
-    );
-}
+const Input = (props) => {
+  return (
+    <Form.Group as={Row} className="mb-3">
+      <Col>
+        <Form.Control {...props} />
+      </Col>
+    </Form.Group>
+  );
+};
 
-export default Input;
+const CustomSelect = (props) => {
+  const {onChange, options, label, value, placeholder, isClearable, name } = props;
+  return (
+    <Form.Group as={Row} className="mb-3">
+      <Col>
+        <Select
+          name={name}
+          isClearable={isClearable}
+          placeholder={placeholder}
+          options={options}
+          getOptionLabel={(option) => option[label]}
+          getOptionValue={(option) => option[value]}
+          onChange={onChange}
+        />
+      </Col>
+    </Form.Group>
+  );
+};
+
+export { CustomSelect, Input };

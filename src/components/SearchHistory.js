@@ -1,50 +1,49 @@
-import moment from 'moment';
-import { useState } from 'react';
-import { Card, ListGroup } from 'react-bootstrap';
-import { BsSearch, BsTrash } from 'react-icons/bs';
+import { Card, ListGroup } from "react-bootstrap";
+import { BsSearch, BsTrash } from "react-icons/bs";
 
-
-
-
-const SearchHistory = () => {
-    const [items, setItems] = useState(["Johor, MY", "Osaka, JP", "Seoul, KR"]);
-    return (
-
-        <Card>
-            <Card.Header>
-                Search History
-                </Card.Header>
-            <Card.Body>
-                <ListGroup variant="flush">
-                    {items.map((location, index) => { return (<Item key={index} location={location} />) })}
-                </ListGroup>
-            </Card.Body>
-        </Card>
-    )
-
-}
+const SearchHistory = (props) => {
+  return (
+    <Card>
+      <Card.Header>Search History</Card.Header>
+      <Card.Body>
+        <ListGroup variant="flush">
+          {props.history.length > 0 ? (
+            props.history.map((info, index) => {
+              return <Item key={index} index={index} info={info} {...props} />;
+            })
+          ) : (
+            <ListGroup.Item className="d-flex justify-content-between align-items-center">
+              No history
+            </ListGroup.Item>
+          )}
+        </ListGroup>
+      </Card.Body>
+    </Card>
+  );
+};
 
 const Item = (props) => {
-    const { location } = props;
-    return (
-        <ListGroup.Item className="d-flex justify-content-between align-items-center">{location}<ItemActions /></ListGroup.Item>
-    )
-
-}
+  return (
+    <ListGroup.Item className="d-flex justify-content-between align-items-center">
+      {`${props.info.city}, ${props.info.country}`}
+      <ItemActions {...props} />
+    </ListGroup.Item>
+  );
+};
 
 const ItemActions = (props) => {
-    return (
-        <div>
-            {moment().format("HH:MM:SS a")}
-            <span>
-                <BsSearch className="ml-2 mr-2" />
-            </span>
-            <span>
-                <BsTrash className="ml-2 mr-2" />
-            </span>
-        </div>
-    )
-
-}
+  const { index, remove, search, info } = props;
+  return (
+    <div>
+      {info.timestamp}
+      <span>
+        <BsSearch onClick={() => search(index)} className="ml-2 mr-2" />
+      </span>
+      <span>
+        <BsTrash onClick={() => remove(index)} className="ml-2 mr-2" />
+      </span>
+    </div>
+  );
+};
 
 export default SearchHistory;
