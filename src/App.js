@@ -1,25 +1,28 @@
 import logo from './logo.svg';
 import './App.css';
+import CustomNavbar from './components/Navbar';
+import { Card, Navbar, Container, Form, Row, Col } from 'react-bootstrap';
+import SearchSection from './components/SearchSection';
+import SearchHistory from './components/SearchHistory';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <CustomNavbar title="Today's Weather" />
+      <Container fluid="md" className="mt-2 mb-2">
+        <Card >
+          <Card.Body>
+            <SearchSection/>
+            <hr/>
+            <SearchHistory/>
+          </Card.Body>
+        </Card>
+      </Container>
+    </>
   );
 }
+
+
+
 
 export default App;
