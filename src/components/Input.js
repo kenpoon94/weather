@@ -13,7 +13,8 @@ const Input = (props) => {
 };
 
 const CustomSelect = (props) => {
-  const {onChange, options, label, value, placeholder, isClearable, name } = props;
+  const { onChange, options, label, value, placeholder, isClearable, name } =
+    props;
   return (
     <Form.Group as={Row} className="mb-3">
       <Col>

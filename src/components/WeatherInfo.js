@@ -5,6 +5,18 @@ const WeatherInfo = (props) => {
   const { weather, name, sys, main, dt } = props.info;
   const { temp_min, temp_max, humidity } = main;
   const { description, main: main_weather } = weather[0];
+  let temperature = ``;
+  if (props.cf === "c") {
+    temperature = `${convertToCelsius(temp_min)}C ~ ${convertToCelsius(
+      temp_max
+    )}C`;
+  }
+
+  if (props.cf === "f") {
+    temperature = `${convertToFarenheit(temp_min)}F ~ ${convertToFarenheit(
+      temp_max
+    )}F`;
+  }
 
   return (
     <Card className="mt-3">
@@ -17,7 +29,7 @@ const WeatherInfo = (props) => {
           <ListGroup.Item>
             {`${capitalizeFirstLetter(description)}`}
           </ListGroup.Item>
-          <ListGroup.Item>{`${temp_min}F ~ ${temp_max}F`}</ListGroup.Item>
+          <ListGroup.Item>{temperature}</ListGroup.Item>
           <ListGroup.Item>{`Humidity: ${humidity}%`}</ListGroup.Item>
           <ListGroup.Item>
             {moment.unix(dt).format("DD-MM-YYYY HH:MM:SS a")}
@@ -27,6 +39,14 @@ const WeatherInfo = (props) => {
     </Card>
   );
 };
+
+function convertToCelsius(temp) {
+  return (temp - 273.15).toFixed(2);
+}
+
+function convertToFarenheit(temp) {
+  return (temp * (9 / 5) - 459.67).toFixed(2);
+}
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);

@@ -7,8 +7,9 @@ import SearchHistory from "./components/SearchHistory";
 import moment from "moment";
 
 function App() {
+  const [cf, toggleTemperature] = useState("f");
   const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState(null);
   const [weather, setWeather] = useState(null);
   const [history, setHistory] = useState([]);
 
@@ -17,6 +18,11 @@ function App() {
       setWeather(resp);
     });
   }, []);
+
+  const toggleCf = () => {
+    if (cf === "c") toggleTemperature("f");
+    else toggleTemperature("c");
+  };
 
   const onChange = (e) => {
     setCity(e.target.value);
@@ -28,12 +34,14 @@ function App() {
   };
 
   const search = (index = null) => {
-    let cityQ = index ? history[index].city : city;
-    let countryQ = index ? history[index].country : country;
+    let cityQ = index != null ? history[index].city : city;
+    let countryQ = index != null ? history[index].country : country;
     getWeather(cityQ, countryQ).then((resp) => {
       if (resp) {
         addHistory(resp.name, resp.sys.country);
         setWeather(resp);
+      } else {
+        setWeather(null);
       }
     });
   };
@@ -41,7 +49,7 @@ function App() {
   const addHistory = (city, country) => {
     let newHistory = Array.from(history);
     newHistory.push({
-      timestamp: moment().format("DD-MM-YYYY HH:MM:SS a"),
+      timestamp: moment().format("HH:MM:SS a"),
       city,
       country,
     });
@@ -56,11 +64,12 @@ function App() {
 
   return (
     <>
-      <CustomNavbar title="Today's Weather" />
+      <CustomNavbar title="Today's Weather" cf={cf} toggleCf={toggleCf} />
       <Container fluid="md" className="mt-2 mb-2">
         <Card>
           <Card.Body>
             <SearchSection
+              cf={cf}
               city={city}
               weather={weather}
               canSubmit={!(city || country)}

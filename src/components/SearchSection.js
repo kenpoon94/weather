@@ -4,7 +4,7 @@ import WeatherInfo from "./WeatherInfo";
 import countryList from "iso-3166-country-list";
 
 const SearchSection = (props) => {
-  const { weather, city, onChange, onCountryChange, onSubmit, canSubmit } =
+  const {cf, weather, city, onChange, onCountryChange, onSubmit, canSubmit } =
     props;
 
   return (
@@ -41,7 +41,7 @@ const SearchSection = (props) => {
         </Col>
       </Row>
       {weather ? (
-        <WeatherInfo info={weather} />
+        <WeatherInfo cf={cf} info={weather} />
       ) : (
         <Card className="mt-3">
           <Card.Body>
